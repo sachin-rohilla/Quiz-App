@@ -8,6 +8,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [finalData, setFinalData] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
   const stepOneData = [
     {
       id: 1,
@@ -35,9 +36,22 @@ function App() {
     },
   ];
 
-  const handleSelectAnswer = (data) => {
-    setSelectedAnswer(data);
-    setFinalData([...finalData, data]);
+  const stepFourData = [
+    {
+      id: 1,
+      question: "who is the prime minister of India",
+      options: [
+        "Narendra Modi",
+        "Ramnath Kovind",
+        "Nawaz Sharifuddin",
+        "Jawaharlal Nehru",
+      ],
+      correctAnswer: 1,
+    },
+  ];
+
+  const handleSelectAnswer = (data, correctAnswer) => {
+    setSelectedAnswer({ correctAnswer: correctAnswer, chooseOption: data });
   };
 
   const handleNextStep = () => {
@@ -45,7 +59,14 @@ function App() {
       toast.error("Please select an option");
       return;
     }
-    setCurrentStep((prevStep) => prevStep + 1);
+    setFinalData([...finalData, selectedAnswer]);
+
+    if (currentStep < 4) {
+      setCurrentStep((prevStep) => prevStep + 1);
+    } else {
+      setIsSubmit(true);
+      toast.success("Quiz Completed");
+    }
     setSelectedAnswer(null);
   };
 
@@ -61,14 +82,20 @@ function App() {
           </h1>
 
           {currentStep === 1 &&
+            !isSubmit &&
             stepOneData?.map((item) => (
               <div>
                 <h2>{item.question}</h2>
                 {item.options?.map((option, index) => (
                   <p
-                    onClick={() => handleSelectAnswer(option)}
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
                     className={`border rounded-lg p-3 mt-2 cursor-pointer${
-                      selectedAnswer === option
+                      selectedAnswer?.chooseOption === option
                         ? " bg-yellow-400 text-white"
                         : ""
                     }`}
@@ -78,14 +105,20 @@ function App() {
             ))}
 
           {currentStep === 2 &&
+            !isSubmit &&
             stepTwoData?.map((item) => (
               <div>
                 <h2>{item.question}</h2>
                 {item.options?.map((option, index) => (
                   <p
-                    onClick={() => handleSelectAnswer(option)}
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
                     className={`border rounded-lg p-3 mt-2 cursor-pointer${
-                      selectedAnswer === option
+                      selectedAnswer?.chooseOption === option
                         ? " bg-yellow-400 text-white"
                         : ""
                     }`}
@@ -95,14 +128,20 @@ function App() {
             ))}
 
           {currentStep === 3 &&
+            !isSubmit &&
             stepThreeData?.map((item) => (
               <div>
                 <h2>{item.question}</h2>
                 {item.options?.map((option, index) => (
                   <p
-                    onClick={() => handleSelectAnswer(option)}
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
                     className={`border rounded-lg p-3 mt-2 cursor-pointer${
-                      selectedAnswer === option
+                      selectedAnswer?.chooseOption === option
                         ? " bg-yellow-400 text-white"
                         : ""
                     }`}
@@ -110,12 +149,57 @@ function App() {
                 ))}
               </div>
             ))}
-          <button
-            onClick={handleNextStep}
-            className="bg-yellow-400 text-white rounded-lg w-32 py-2 mt-4 float-right"
-          >
-            Next
-          </button>
+
+          {currentStep === 4 &&
+            !isSubmit &&
+            stepFourData?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer?.chooseOption === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+          {!isSubmit && (
+            <button
+              onClick={handleNextStep}
+              className="bg-yellow-400 text-white rounded-lg w-32 py-2 mt-4 float-right"
+            >
+              {currentStep === 4 ? "Submit" : "Next"}
+            </button>
+          )}
+
+          {isSubmit && (
+            <div className="flex flex-col items-center gap-1 text-base">
+              <p>Total Question : {finalData?.length}</p>
+              <p>
+                Correct Answer :{" "}
+                {
+                  finalData.filter((item) => item?.correctAnswer === true)
+                    ?.length
+                }
+              </p>
+              <p>
+                Wrong Answer :{" "}
+                {
+                  finalData.filter((item) => item?.correctAnswer === false)
+                    ?.length
+                }
+              </p>
+            </div>
+          )}
         </div>
       </div>
       <ToastContainer position="top-center" autoClose={2000} hideProgressBar />
