@@ -9,37 +9,69 @@ function App() {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [finalData, setFinalData] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
-  const stepOneData = [
+  // const stepOneData = [
+  //   {
+  //     id: 1,
+  //     question: "What is the capital of India ?",
+  //     options: ["Delhi", "Mumbai", "Chennai", "Kolkata"],
+  //     correctAnswer: 1,
+  //   },
+  // ];
+
+  // const stepTwoData = [
+  //   {
+  //     id: 1,
+  //     question: "Which of the following is not a programming language?",
+  //     options: ["C++", "C", "Java", "Python"],
+  //     correctAnswer: 3,
+  //   },
+  // ];
+
+  // const stepThreeData = [
+  //   {
+  //     id: 1,
+  //     question: "How many states are there in India?",
+  //     options: ["31", "29", "30", "28"],
+  //     correctAnswer: 4,
+  //   },
+  // ];
+
+  // const stepFourData = [
+  //   {
+  //     id: 1,
+  //     question: "who is the prime minister of India",
+  //     options: [
+  //       "Narendra Modi",
+  //       "Ramnath Kovind",
+  //       "Nawaz Sharifuddin",
+  //       "Jawaharlal Nehru",
+  //     ],
+  //     correctAnswer: 1,
+  //   },
+  // ];
+
+  const quizData = [
     {
       id: 1,
-      question: "What is the capital of India ?",
+      question: "What is the capital of India?",
       options: ["Delhi", "Mumbai", "Chennai", "Kolkata"],
       correctAnswer: 1,
     },
-  ];
-
-  const stepTwoData = [
     {
-      id: 1,
+      id: 2,
       question: "Which of the following is not a programming language?",
       options: ["C++", "C", "Java", "Python"],
       correctAnswer: 3,
     },
-  ];
-
-  const stepThreeData = [
     {
-      id: 1,
+      id: 3,
       question: "How many states are there in India?",
       options: ["31", "29", "30", "28"],
       correctAnswer: 4,
     },
-  ];
-
-  const stepFourData = [
     {
-      id: 1,
-      question: "who is the prime minister of India",
+      id: 4,
+      question: "Who is the prime minister of India?",
       options: [
         "Narendra Modi",
         "Ramnath Kovind",
@@ -82,6 +114,94 @@ function App() {
           </h1>
 
           {currentStep === 1 &&
+            quizData.splice(0, 1)?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer?.chooseOption === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+
+          {currentStep === 2 &&
+            quizData.splice(1, 1)?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer?.chooseOption === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+
+          {currentStep === 3 &&
+            quizData.splice(2, 1)?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer?.chooseOption === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+          {currentStep === 4 &&
+            !isSubmit &&
+            quizData.splice(3, 1)?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => {
+                      handleSelectAnswer(
+                        option,
+                        item.correctAnswer === index + 1
+                      );
+                    }}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer?.chooseOption === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+
+          {/* {currentStep === 1 &&
             !isSubmit &&
             stepOneData?.map((item) => (
               <div>
@@ -171,7 +291,7 @@ function App() {
                   >{`${index + 1}. ${option}`}</p>
                 ))}
               </div>
-            ))}
+            ))} */}
           {!isSubmit && (
             <button
               onClick={handleNextStep}
