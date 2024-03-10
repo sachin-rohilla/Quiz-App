@@ -17,6 +17,24 @@ function App() {
     },
   ];
 
+  const stepTwoData = [
+    {
+      id: 1,
+      question: "Which of the following is not a programming language?",
+      options: ["C++", "C", "Java", "Python"],
+      correctAnswer: 3,
+    },
+  ];
+
+  const stepThreeData = [
+    {
+      id: 1,
+      question: "How many states are there in India?",
+      options: ["31", "29", "30", "28"],
+      correctAnswer: 4,
+    },
+  ];
+
   const handleSelectAnswer = (data) => {
     setSelectedAnswer(data);
     setFinalData([...finalData, data]);
@@ -28,6 +46,7 @@ function App() {
       return;
     }
     setCurrentStep((prevStep) => prevStep + 1);
+    setSelectedAnswer(null);
   };
 
   console.log(currentStep, selectedAnswer, finalData);
@@ -43,6 +62,40 @@ function App() {
 
           {currentStep === 1 &&
             stepOneData?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => handleSelectAnswer(option)}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+
+          {currentStep === 2 &&
+            stepTwoData?.map((item) => (
+              <div>
+                <h2>{item.question}</h2>
+                {item.options?.map((option, index) => (
+                  <p
+                    onClick={() => handleSelectAnswer(option)}
+                    className={`border rounded-lg p-3 mt-2 cursor-pointer${
+                      selectedAnswer === option
+                        ? " bg-yellow-400 text-white"
+                        : ""
+                    }`}
+                  >{`${index + 1}. ${option}`}</p>
+                ))}
+              </div>
+            ))}
+
+          {currentStep === 3 &&
+            stepThreeData?.map((item) => (
               <div>
                 <h2>{item.question}</h2>
                 {item.options?.map((option, index) => (
